@@ -46,5 +46,13 @@ export function computeScores(
     }
   })
 
-  return scored.sort((a, b) => b.points - a.points)
+  return scored.sort((a, b) => {
+    if (b.points !== a.points) return b.points - a.points
+    // Tiebreaker 1: whoever reached score first (earlier last_entry) ranks higher
+    if (a.last_entry && b.last_entry) return a.last_entry.localeCompare(b.last_entry)
+    if (a.last_entry) return -1
+    if (b.last_entry) return 1
+    // Tiebreaker 2: alphabetical by display name
+    return a.display_name.localeCompare(b.display_name)
+  })
 }

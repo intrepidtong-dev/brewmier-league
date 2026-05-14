@@ -16,6 +16,9 @@ export async function POST(req: NextRequest) {
   if (!trimmedName) {
     return NextResponse.json({ error: 'display_name cannot be blank' }, { status: 400 })
   }
+  if (trimmedName.length > 32) {
+    return NextResponse.json({ error: 'display_name must be 32 characters or fewer' }, { status: 400 })
+  }
 
   const league = getLeagueByCode((join_code as string).toUpperCase())
   if (!league) {
@@ -37,6 +40,7 @@ export async function POST(req: NextRequest) {
     httpOnly: false,           // client reads it for redirect on first load
     sameSite: 'lax',
     path: '/',
+    secure: process.env.NODE_ENV === 'production',
   })
   return response
 }

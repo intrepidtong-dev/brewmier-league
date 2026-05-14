@@ -34,6 +34,24 @@ export default function AdminPage() {
     }
   }
 
+  async function handleAuth(e: React.FormEvent) {
+    e.preventDefault()
+    setMsg('')
+    // Test secret by attempting a POST with intentionally missing fields to get a 400 (not 401)
+    const res = await fetch('/api/leagues', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Secret': secret },
+      body: JSON.stringify({}), // missing name/join_code → will get 400 if auth passes, 401 if auth fails
+    })
+    if (res.status === 401) {
+      setMsg('Wrong admin secret.')
+      return
+    }
+    // Any non-401 response (including 400 for missing fields) means the secret is valid
+    setAuthenticated(true)
+    setMsg('')
+  }
+
   if (!authenticated) {
     return (
       <>
@@ -42,7 +60,7 @@ export default function AdminPage() {
           <div className="bg-navy text-foam p-4 mb-6">
             <h1 className="font-headline text-4xl text-beer-gold tracking-wider">ADMIN</h1>
           </div>
-          <form onSubmit={(e) => { e.preventDefault(); setAuthenticated(true) }} className="space-y-4">
+          <form onSubmit={handleAuth} className="space-y-4">
             <div>
               <label className="block text-xs font-body font-bold text-navy uppercase tracking-widest mb-1">
                 Admin Secret
@@ -61,6 +79,7 @@ export default function AdminPage() {
             >
               ENTER
             </button>
+            {msg && <p className="text-league-red font-body text-sm font-semibold">{msg}</p>}
           </form>
         </main>
       </>

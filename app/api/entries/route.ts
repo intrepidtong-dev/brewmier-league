@@ -25,6 +25,13 @@ export async function POST(req: NextRequest) {
   const body = await req.json()
   const { timezone_offset, venue, notes } = body
 
+  if (venue && (venue as string).length > 200) {
+    return NextResponse.json({ error: 'venue must be 200 characters or fewer' }, { status: 400 })
+  }
+  if (notes && (notes as string).length > 200) {
+    return NextResponse.json({ error: 'notes must be 200 characters or fewer' }, { status: 400 })
+  }
+
   // Duplicate entry guard
   const recent = getRecentEntryByPlayer(playerCookie.playerId)
   if (recent) {

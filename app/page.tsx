@@ -101,6 +101,7 @@ export default function JoinPage() {
               onChange={e => setDisplayName(e.target.value)}
               placeholder="e.g. Dave"
               required
+              maxLength={32}
               className="w-full border-2 border-navy bg-foam px-3 py-2 font-body text-navy focus:outline-none focus:border-league-red"
             />
           </div>

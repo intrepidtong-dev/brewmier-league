@@ -101,6 +101,7 @@ export default function LogPage() {
               value={venue}
               onChange={e => setVenue(e.target.value)}
               placeholder="e.g. The Crown, Wembley, Dave's sofa"
+              maxLength={200}
               className="w-full border-2 border-navy bg-foam px-3 py-3 font-body text-navy focus:outline-none focus:border-league-red"
             />
           </div>
@@ -114,6 +115,7 @@ export default function LogPage() {
               value={notes}
               onChange={e => setNotes(e.target.value)}
               placeholder="e.g. Guinness, what a pint"
+              maxLength={200}
               className="w-full border-2 border-navy bg-foam px-3 py-2 font-body text-navy focus:outline-none focus:border-league-red"
             />
           </div>
