@@ -6,3 +6,56 @@ body {
   background-color: #F5E9D4;
   color: #112240;
 }
+
+/* Rulebook rendered markdown styles (no @tailwindcss/typography) */
+.rulebook-content h1 {
+  font-family: var(--font-bebas), Impact, sans-serif;
+  font-size: 2rem;
+  color: #112240;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
+}
+
+.rulebook-content h2 {
+  font-family: var(--font-bebas), Impact, sans-serif;
+  font-size: 1.5rem;
+  color: #9B1C31;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid #112240;
+  padding-bottom: 0.25rem;
+}
+
+.rulebook-content p {
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+  color: #112240;
+}
+
+.rulebook-content em {
+  font-style: italic;
+  color: #112240cc;
+}
+
+.rulebook-content strong {
+  font-weight: 700;
+  color: #112240;
+}
+
+.rulebook-content hr {
+  border: none;
+  border-top: 2px solid #112240;
+  margin: 1.5rem 0;
+}
+
+.rulebook-content ul,
+.rulebook-content ol {
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.rulebook-content li {
+  margin-bottom: 0.25rem;
+  line-height: 1.6;
+}
