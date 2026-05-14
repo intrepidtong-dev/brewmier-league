@@ -75,7 +75,7 @@ function initSchema(db: Database.Database): void {
 
     CREATE TABLE IF NOT EXISTS players (
       id           INTEGER PRIMARY KEY AUTOINCREMENT,
-      league_id    INTEGER NOT NULL REFERENCES leagues(id),
+      league_id    INTEGER NOT NULL REFERENCES leagues(id) ON DELETE CASCADE,
       display_name TEXT    NOT NULL,
       joined_at    TEXT    NOT NULL DEFAULT (datetime('now')),
       UNIQUE(league_id, display_name)
@@ -83,8 +83,8 @@ function initSchema(db: Database.Database): void {
 
     CREATE TABLE IF NOT EXISTS beer_entries (
       id               INTEGER PRIMARY KEY AUTOINCREMENT,
-      player_id        INTEGER NOT NULL REFERENCES players(id),
-      league_id        INTEGER NOT NULL REFERENCES leagues(id),
+      player_id        INTEGER NOT NULL REFERENCES players(id) ON DELETE CASCADE,
+      league_id        INTEGER NOT NULL REFERENCES leagues(id) ON DELETE CASCADE,
       logged_at        TEXT    NOT NULL,
       timezone_offset  INTEGER NOT NULL DEFAULT 0,
       venue            TEXT,
@@ -93,10 +93,22 @@ function initSchema(db: Database.Database): void {
 
     CREATE TABLE IF NOT EXISTS scoring_rules (
       id          INTEGER PRIMARY KEY AUTOINCREMENT,
-      league_id   INTEGER NOT NULL REFERENCES leagues(id),
+      league_id   INTEGER NOT NULL REFERENCES leagues(id) ON DELETE CASCADE,
       rule_type   TEXT    NOT NULL,
       points      INTEGER NOT NULL DEFAULT 1,
       config_json TEXT
     );
+
+    CREATE INDEX IF NOT EXISTS idx_players_league_id
+      ON players(league_id);
+
+    CREATE INDEX IF NOT EXISTS idx_beer_entries_player_id
+      ON beer_entries(player_id);
+
+    CREATE INDEX IF NOT EXISTS idx_beer_entries_league_logged
+      ON beer_entries(league_id, logged_at);
+
+    CREATE INDEX IF NOT EXISTS idx_scoring_rules_league_id
+      ON scoring_rules(league_id);
   `)
 }
