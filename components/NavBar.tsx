@@ -11,7 +11,7 @@ export default function NavBar() {
     <nav className="bg-navy text-foam border-b-4 border-beer-gold">
       <div className="max-w-2xl mx-auto px-4 flex items-center justify-between h-14">
         <Link href="/" className="flex items-center gap-2">
-          <div className="bg-foam rounded-full p-0.5 flex-shrink-0">
+          <div className="bg-foam rounded-full p-0.5 flex-shrink-0 overflow-hidden">
             <Image src="/logo.png" alt="Brewmier League" width={32} height={32} className="block" />
           </div>
           <span className="font-headline text-2xl tracking-wider text-beer-gold leading-none">

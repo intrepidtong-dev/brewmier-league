@@ -53,7 +53,7 @@ export default function JoinPage() {
       {/* Hero */}
       <div className="text-center mb-8">
         <div className="flex justify-center mb-3">
-          <div className="bg-foam rounded-full p-2 shadow-[0_0_0_4px_#D8A031]">
+          <div className="bg-foam rounded-full p-2 shadow-[0_0_0_4px_#D8A031] overflow-hidden">
             <Image src="/logo.png" alt="Brewmier League" width={80} height={80} priority />
           </div>
         </div>
