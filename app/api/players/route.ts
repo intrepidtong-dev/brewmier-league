@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getLeagueByCode, getOrCreatePlayer } from '@/lib/db'
+import { getLeagueByCode, getOrCreatePlayer, deletePlayer } from '@/lib/db'
 import { serializePlayerCookie } from '@/lib/cookies'
 
 // POST /api/players  { join_code, display_name }
@@ -43,4 +43,26 @@ export async function POST(req: NextRequest) {
     secure: process.env.NODE_ENV === 'production',
   })
   return response
+}
+
+// DELETE /api/players  { join_code, display_name }  [X-Admin-Secret required]
+// Deletes a player and their beer entries (CASCADE)
+export async function DELETE(req: NextRequest) {
+  const secret = req.headers.get('x-admin-secret')
+  if (!secret || secret !== process.env.ADMIN_SECRET) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+  const { join_code, display_name } = await req.json()
+  if (!join_code || !display_name) {
+    return NextResponse.json({ error: 'join_code and display_name required' }, { status: 400 })
+  }
+  const league = getLeagueByCode((join_code as string).toUpperCase())
+  if (!league) {
+    return NextResponse.json({ error: 'League not found' }, { status: 404 })
+  }
+  const deleted = deletePlayer(league.id, (display_name as string).trim())
+  if (!deleted) {
+    return NextResponse.json({ error: 'Player not found' }, { status: 404 })
+  }
+  return NextResponse.json({ deleted: true })
 }

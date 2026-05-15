@@ -171,6 +171,13 @@ export function getPlayerByName(leagueId: number, displayName: string): Player |
     .get(leagueId, displayName) as Player | undefined
 }
 
+export function deletePlayer(leagueId: number, displayName: string): boolean {
+  const result = getDb()
+    .prepare('DELETE FROM players WHERE league_id = ? AND display_name = ?')
+    .run(leagueId, displayName)
+  return result.changes > 0
+}
+
 export function createEntry(
   playerId: number,
   leagueId: number,
